@@ -21,7 +21,7 @@ public class UsuarioController {
         return userService.findAllUser();
     }
 
-    @PostMapping("/save")
+    @PostMapping("/saveDTO")
     public void postUser(@RequestBody UserDTO userDTO){
          userService.saveUser(userDTO);
     }
@@ -30,6 +30,10 @@ public class UsuarioController {
     public ResponseEntity<Optional<UsuarioEntity>> getById(@PathVariable Long id){
          Optional<UsuarioEntity> user= userService.findById(id);
         return ResponseEntity.ok(user);
+    }
+    @PostMapping("/save")
+    public void postUser(@RequestBody UsuarioEntity user){
+        userService.saveUserN(user);
     }
 
 }

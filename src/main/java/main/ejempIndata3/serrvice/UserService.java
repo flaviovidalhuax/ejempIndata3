@@ -29,6 +29,13 @@ public class UserService {
         return data;
 
     }
+    public UsuarioEntity saveUserN(UsuarioEntity user) {
+
+        userRepository.save(user);
+
+
+        return user;
+    }
 
     public Optional<UsuarioEntity> findById(Long id) {
         return userRepository.findById(id);
