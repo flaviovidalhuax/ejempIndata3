@@ -31,6 +31,7 @@ public class UsuarioController {
          userService.saveUser(userDTO);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Optional<UsuarioEntity> getById(@PathVariable Long id){
          Optional<UsuarioEntity> user= userService.findById(id);
@@ -46,7 +47,6 @@ public class UsuarioController {
     @DeleteMapping("elim/{id}")
     public void deleteUser(@PathVariable Long id){
         userService.deleted(id);
-
     }
 
 }

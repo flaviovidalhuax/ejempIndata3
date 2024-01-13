@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 //@RunWith(SpringRunner.class)
 @WebMvcTest(UsuarioController.class)
-@SpringJUnitConfig
+//@SpringJUnitConfig
 class UsuarioControllerTest {
     @Autowired
     private MockMvc mvc;
@@ -72,9 +72,7 @@ class UsuarioControllerTest {
                 .lastname("perez")
                 .password("1234")
                 .build();
-//
-        //when(userService.saveUserN(any(UsuarioEntity.class))).thenReturn(dat);
-
+        when(userService.saveUserN(dat)).thenReturn(dat);
         mvc.perform(post("/v1/user/save")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dat)))
@@ -104,6 +102,7 @@ class UsuarioControllerTest {
                 UsuarioEntity.builder().id(1L).name("John").lastname("Doe").password("pass123").build(),
                 UsuarioEntity.builder().id(2L).name("Jane").lastname("Smith").password("pass456").build()
         );
+        when(userService.findAllUser()).thenReturn(userList);
                 // Agrega más usuarios según sea necesario
                 mvc.perform(get("/v1/user").contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk())
@@ -115,8 +114,6 @@ class UsuarioControllerTest {
                         .andExpect(jsonPath("$[1].name").value("Jane"))
                         .andExpect(jsonPath("$[1].lastname").value("Smith"))
                         .andExpect(jsonPath("$[1].password").value("pass456"));
-
-
 
     }
 }

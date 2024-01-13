@@ -85,20 +85,15 @@ class UserRepositoryTest {
     void findByIdTest(){
         //give
         UsuarioEntity user22=UsuarioEntity.builder()
-                .id(4L)
+                .id(1L)
                 .name("juan")
                 .lastname("perez")
                 .password("1234")
                 .build();
         //where
         userRepository.save(user22);
-        UsuarioEntity data= userRepository.findById(33L).orElse(user22);
-        List<UsuarioEntity> inf= (List<UsuarioEntity>) userRepository.findAll();
-        System.out.println( "sixe"+inf.size());
-        System.out.println(inf);
-        System.out.println(data);
-        System.out.println("------------------>");
-        assertEquals(4L, data.getId());
+        UsuarioEntity data= userRepository.findById(4L).orElse(user22);
+        assertEquals(1L, data.getId());
         assertEquals("juan", data.getName());
         assertEquals("perez", data.getLastname());
 

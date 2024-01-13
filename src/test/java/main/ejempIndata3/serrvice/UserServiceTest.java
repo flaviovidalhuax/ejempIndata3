@@ -21,7 +21,7 @@ class UserServiceTest {
     UserRepository userRepository;
     @Autowired
     UserService userService;
-    static UsuarioEntity usuario1;
+    UsuarioEntity usuario1;
     @BeforeEach
      void setUp() {
         usuario1=new UsuarioEntity();
@@ -56,8 +56,11 @@ class UserServiceTest {
     void findAll(){
         List<UsuarioEntity> data=Arrays.asList(new UsuarioEntity(1l, "juan", "perez","1234"),new UsuarioEntity(2L, "maria", "angeles", "1234"));
         when(userRepository.findAll()).thenReturn(data);
-        assertNotNull(userService.findAllUser());
+       // verify(userRepository, times(1)).findAll();
+        List<UsuarioEntity> aux=userService.findAllUser();
+        assertNotNull(aux);
         assertEquals(2, userService.findAllUser().size());
+
     }
     @Test
     void deltedTest(){
