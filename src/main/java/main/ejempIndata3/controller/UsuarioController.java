@@ -4,6 +4,8 @@ import main.ejempIndata3.dto.UserDTO;
 import main.ejempIndata3.entity.UsuarioEntity;
 import main.ejempIndata3.serrvice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,11 @@ public class UsuarioController {
     UserService userService;
 
     @GetMapping
-    public List<UsuarioEntity> getAllUser(){
-        return userService.findAllUser();
+    public ResponseEntity<List<UsuarioEntity>> getAllUser(){
+
+        List<UsuarioEntity> data= userService.findAllUser();
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(data);
+
     }
 
     @PostMapping("/saveDTO")
@@ -26,14 +31,22 @@ public class UsuarioController {
          userService.saveUser(userDTO);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Optional<UsuarioEntity>> getById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public Optional<UsuarioEntity> getById(@PathVariable Long id){
          Optional<UsuarioEntity> user= userService.findById(id);
-        return ResponseEntity.ok(user);
+        return user;
     }
+
     @PostMapping("/save")
-    public void postUser(@RequestBody UsuarioEntity user){
+    public ResponseEntity<UsuarioEntity> postUser(@RequestBody UsuarioEntity user){
         userService.saveUserN(user);
+     return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON).body(user);
+    }
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("elim/{id}")
+    public void deleteUser(@PathVariable Long id){
+        userService.deleted(id);
+
     }
 
 }

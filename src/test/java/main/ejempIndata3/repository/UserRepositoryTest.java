@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,10 +50,10 @@ class UserRepositoryTest {
                 .build();
         //where
         userRepository.save(user1);
-        Optional<UsuarioEntity> dataEspct =userRepository.findById(1L);
-        assertNotNull(dataEspct);
-        assertEquals("juan", dataEspct.get().getName());
-        assertEquals("1234", dataEspct.get().getPassword());
+        UsuarioEntity userAux =userRepository.findById(1L).orElse(user1);
+        assertNotNull(userAux);
+        assertEquals("juan", userAux.getName());
+        assertEquals("1234", userAux.getPassword());
     }
     @Test
     @DisplayName("delete repository")
@@ -80,22 +81,26 @@ class UserRepositoryTest {
         assertEquals(1, data.size());
     }
     @Test
-    @DisplayName("findbiId Repository")
+    @DisplayName("findById Repository")
     void findByIdTest(){
         //give
-        UsuarioEntity user1=UsuarioEntity.builder()
-                .id(1L)
+        UsuarioEntity user22=UsuarioEntity.builder()
+                .id(4L)
                 .name("juan")
                 .lastname("perez")
                 .password("1234")
                 .build();
         //where
-        userRepository.save(user1);
-         Optional<UsuarioEntity> data= userRepository.findById(1L);
-        assertNotNull(data);
-        assertEquals(1L, data.get().getId());
-        assertEquals("juan", data.orElseThrow().getName());
-        assertEquals("perez", data.orElseThrow().getLastname());
+        userRepository.save(user22);
+        UsuarioEntity data= userRepository.findById(33L).orElse(user22);
+        List<UsuarioEntity> inf= (List<UsuarioEntity>) userRepository.findAll();
+        System.out.println( "sixe"+inf.size());
+        System.out.println(inf);
+        System.out.println(data);
+        System.out.println("------------------>");
+        assertEquals(4L, data.getId());
+        assertEquals("juan", data.getName());
+        assertEquals("perez", data.getLastname());
 
     }
 

@@ -30,11 +30,11 @@ public class UserService {
 
     }
     public UsuarioEntity saveUserN(UsuarioEntity user) {
-
         userRepository.save(user);
-
-
         return user;
+    }
+    public void deleted(Long id){
+        userRepository.deleteById(id);
     }
 
     public Optional<UsuarioEntity> findById(Long id) {
